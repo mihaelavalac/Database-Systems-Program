@@ -37,5 +37,25 @@ BEGIN
     END LOOP;  
 END;
 
+--  ============================================================== --
+
+-- CREATED THE Student_report VIEW
+CREATE OR REPLACE VIEW student_report
+AS
+SELECT
+student.student_id AS "Student Id", CONCAT(CONCAT(student.first_name, ' '), student.last_name) AS "Student Full Name",
+course.course_name as "Course Name", course.credit_hours as "Credi Hours",
+section.section_id As "Section Id", section.days as "Days", section.start_time as "Start Date", section.end_time as "End Date",
+location.building as "Building", location.room as "Room",
+CONCAT(CONCAT(faculty.first_name, ' '), faculty.last_name) AS "Instructor Full Name",
+grades.grade as "Grade"
+FROM grades
+left join student on grades.student_id = student.student_id
+LEFT JOIN section on grades.section_id = section.section_id
+LEFT JOIN location ON section.location_id = location.location_id
+left join course on section.course_id = course.course_id
+left join course_instructor on section.section_id = course_instructor.section_id
+LEFT JOIN FACULTY ON course_instructor.faculty_id = FACULTY.FACULTY_ID;
+
 
 
